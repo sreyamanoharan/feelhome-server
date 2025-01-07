@@ -15,7 +15,7 @@ const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
 
 
 app.use(cors({
-   origin: ["http://localhost:4000", "https://feelhome-private.vercel.app"],
+   origin: ["http://localhost:4000/",],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
