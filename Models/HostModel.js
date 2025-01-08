@@ -28,7 +28,6 @@ const HostSchema = new mongoose.Schema({
   hostId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User',
-    required:true
   },
   description:{
     type:String
