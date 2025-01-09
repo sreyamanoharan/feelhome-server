@@ -6,6 +6,8 @@ const SECRETCODE=process.env.VITE_jwtSecretKey
 
 
 export const generateToken= (id,role)=> {
+    console.log(id,role,"demo");
+    
    
         const token = jwt.sign({id,role},SECRETCODE)
         return token
