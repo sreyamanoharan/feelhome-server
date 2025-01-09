@@ -134,6 +134,8 @@ export const ClientRegister = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    console.log("hiiiii");
+    
 
     let { email, password, reMail } = req.body;
 
