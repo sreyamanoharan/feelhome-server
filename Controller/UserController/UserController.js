@@ -131,13 +131,14 @@ export const ClientRegister = async (req, res) => {
     next(error);
   }
 };
+console.log("workign");
 
 export const login = async (req, res) => {
+  console.log("hiiiii");
   try {
-    console.log("hiiiii");
-    
 
     let { email, password, reMail } = req.body;
+console.log(email);
 
     const user = await userCollection.findOne({
       $and: [{ email }, { password: sha256(password + SALT) }],
