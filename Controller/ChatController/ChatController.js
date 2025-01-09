@@ -7,11 +7,13 @@ export const createChat= async(req,res)=>{
     console.log(hostId,"hostId");
 
     if(!userId||!hostId){
-        res.json({error:"something wemnt wrong"})
+        res.json({error:"something went wrong"})
     }else{
         const isChat= await Chat.findOne({
             $and:[{User:{$elemMatch:{$eq:userId}}},{User:{$elemMatch:{$eq:hostId}}}]
          }).populate("User","-password")
+console.log(isChat,'issschat..;;;;;;;;');
+
 
          if(isChat){
             res.json({chat:isChat})
@@ -21,7 +23,11 @@ export const createChat= async(req,res)=>{
                 User:[userId,hostId]
             }
             const createChat=await Chat.create(chatData)
+            console.log(createChat);
+            
             const fullChat=await Chat.findOne({_id:createChat._id}).populate('User','-password')
+            console.log(fullChat);
+            
             res.json({chat:fullChat})
          }
     }

@@ -16,8 +16,10 @@ export const getData=async(req,res)=>{
 export const getDetails=async(req,res)=>{
     try {
       const id=req.params.id
-      console.log(id);
-      const details= await hostSchema.findById(id).populate('hostId')
+      console.log(id,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+      const details= await hostSchema.findById(id).populate('hostId');
+
+    console.log(details,'deetaailssss');
     
       res.status(200).json({details})
     } catch (error) {
