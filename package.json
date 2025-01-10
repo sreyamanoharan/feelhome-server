@@ -2,8 +2,7 @@
   "type": "module",
 
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "index.js"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "cloudinary": "^1.41.0",
