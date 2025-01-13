@@ -5,7 +5,7 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-const FRONTENDURL = [  'http://localhost:4000/','http://localhost:4000',"https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"]
+const FRONTENDURL = [  'http://localhost:4000/','http://localhost:4000',"https://feelhome-client.vercel.app","https://feelhome-client.vercel.app"]
 // const FRONTENDURL = 'https://ubiquitous-fudge-26f06a.netlify.app'
 import { ObjectId } from 'mongoose';
 
