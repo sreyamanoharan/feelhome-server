@@ -5,8 +5,7 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-const FRONTENDURL = [  'http://localhost:4000/','http://localhost:4000',"https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"]
-// const FRONTENDURL = 'https://ubiquitous-fudge-26f06a.netlify.app'
+const FRONTENDURL = ["https://feelhome-client.vercel.app/", "https://feelhome-client.vercel.app"]
 import { ObjectId } from 'mongoose';
 
 
@@ -61,7 +60,7 @@ export const verifyMail = async (req, res) => {
   try {
 
     const expirationToken = req.query.expires;
-    const expirationTime = new Date(expirationToken);
+    const expirationTime = new Date(expirationToken);  
     if (expirationTime > new Date()) {
 
       const { userId } = req.params;
@@ -133,6 +132,9 @@ export const ClientRegister = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+
+  console.log('hiiiiiiiiiii');
+  
   try {
 
     let { email, password, reMail } = req.body;
