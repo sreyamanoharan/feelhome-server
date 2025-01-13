@@ -4,9 +4,6 @@ const HostSchema = new mongoose.Schema({
   selectedCategory: {
     type: String,
   },
-  selectedType: {
-    type: String,
-  },
   selectedFeatures: {
     type: [], 
   },
