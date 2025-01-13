@@ -5,7 +5,8 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-const FRONTENDURL = ["https://feelhome-client.vercel.app/", "https://feelhome-client.vercel.app"]
+const FRONTENDURL = [  'http://localhost:4000/','http://localhost:4000',"https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"]
+// const FRONTENDURL = 'https://ubiquitous-fudge-26f06a.netlify.app'
 import { ObjectId } from 'mongoose';
 
 
@@ -130,14 +131,13 @@ export const ClientRegister = async (req, res) => {
     next(error);
   }
 };
+console.log("workign");
 
 export const login = async (req, res) => {
-
-  console.log('hiiiiiiiiiii');
-  
   try {
 
     let { email, password, reMail } = req.body;
+console.log(email);
 
     const user = await userCollection.findOne({
       $and: [{ email }, { password: sha256(password + SALT) }],

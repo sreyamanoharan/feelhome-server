@@ -15,7 +15,7 @@ const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
 
 
 app.use(cors({
-   origin: ["http://localhost:4000", "feelhome-client-iitd.vercel.app/","feelhome-client-iitd.vercel.app"],
+   origin: ["http://localhost:4000","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
@@ -45,7 +45,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app"],
+    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app/"],
     methods:['GET','POST','PATCH']
   }
 })

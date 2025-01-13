@@ -25,6 +25,8 @@ import { postReview ,getReviews} from "../Controller/UserController/ReviewContro
 userRouter.post('/register',ClientRegister)
 userRouter.get('/verifyMail/:userId',verifyMail)
 userRouter.post('/userLogin',login)
+console.log("hiiiiii");
+
 userRouter.post('/resendVerificationEmail',resendMail)
 userRouter.post('/forgotPassword',forgotPassword)
 userRouter.post('/resetPassword',restPassword)
