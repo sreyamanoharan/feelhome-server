@@ -14,11 +14,11 @@ const port = 3000;
 // const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
 
 
-  app.use(cors({
-    origin: ["http://localhost:4000","http://localhost:4000/","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
-    methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
-    credentials: true,
-  }));
+app.use(cors({
+   origin: ["http://localhost:4000","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
+  methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
+  credentials: true,
+}));
 app.use(express.json());  
 
 
@@ -45,33 +45,34 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000","http://localhost:4000/", "https://feelhome-client.vercel.app/","https://feelhome-client.vercel.app"],
+    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app/"],
     methods:['GET','POST','PATCH']
   }
 })
 
 
 io.on("connection",(socket)=>{
-  // console.log("conncted to socket.io");
+  console.log("conncted to socket.io");
 
 
   socket.on('setup',(userId)=>{
 
     socket.join(userId)
-    // console.log("conncted to socket.io");
+    console.log("conncted to socket.io");
     socket.emit("connected")
   })
   
 
   socket.on('join chat',(room)=>{
     socket.join(room)
-    console.log("user joined room",room);
+    console.log("user joined room...........................................",room);
   })
 
   socket.on('new message',(newMessageRecieved)=>{
-   
+      console.log('new message....///////////////////.....//////////////');
+      
     var chat=newMessageRecieved?.chatId
-    // console.log(chat,"==========")
+    console.log(chat,"==========")
     if(!chat?.User) return console.log("chat not found");
     chat.User.forEach((user)=>{
       
