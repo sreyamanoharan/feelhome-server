@@ -11,7 +11,7 @@ import messageRoute from './Routes/messageRoute.js';
 
 const app = express();
 const port = 3000;
-const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
+// const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
 
 
   app.use(cors({
