@@ -15,7 +15,7 @@ const port = 3000;
 
 
 app.use(cors({
-   origin: ["http://localhost:4000","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
+   origin: ["http://localhost:4000","http://localhost:4000","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
