@@ -8,7 +8,6 @@ export const postData = async (req, res) => {
   try {
     const {
       selectedCategory,
-      selectedType,
       selectedFeature,
       address,
       selectedLocation,
@@ -30,7 +29,6 @@ console.log(req.body.hostData.description);
 
     const hostData = new HostSchema({
       selectedCategory,
-      selectedType,
       selectedFeatures,
       address,
       selectedLocation,
