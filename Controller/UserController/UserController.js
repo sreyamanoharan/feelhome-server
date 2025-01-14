@@ -5,7 +5,7 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-const FRONTENDURL = [ "https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"]
+const FRONTENDURL = [ "https://feelhome-client.vercel.app"]
 import { ObjectId } from 'mongoose';
 
 
@@ -34,7 +34,7 @@ export const sendVerifyMail = async (name, email, userId) => {
       from: 'feelhomewebsite@gmail.com',
       to: email,
       subject: 'email verification',
-      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}"
+      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}/verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}"
       >here</a> to verify your email.</p>`,
 
     };
