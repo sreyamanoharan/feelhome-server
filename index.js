@@ -45,11 +45,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-<<<<<<< HEAD
     origin: ["http://localhost:4000", "https://feelhome-client.vercel.app"],
-=======
-    origin: ["http://localhost:4000","http://localhost:4000/", "https://feelhome-client.vercel.app/","https://feelhome-client.vercel.app"],
->>>>>>> 96646b893e59e7d87f915ac69a2ae6e664bb80aa
     methods:['GET','POST','PATCH']
   }
 })
