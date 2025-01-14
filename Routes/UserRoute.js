@@ -8,7 +8,6 @@ import {resendMail} from '../Controller/UserController/UserController.js'
 import { getBanner } from "../Controller/UserController/BannerController.js";
 import { getCategory } from "../Controller/UserController/CategoryController.js";
 import { getFeature } from "../Controller/UserController/FeatureController.js";
-import { getType } from "../Controller/UserController/TypeController.js";
 import { getData, getDetails,latestProperties } from "../Controller/UserController/DataController.js";
 import { createCheckoutSession ,paymentSuccess,booking, cancelBooking, getBookingNum, latestBookings} from "../Controller/UserController/BookingController.js";
 // import { getPage } from "../Controller/PaginationController.js";
@@ -33,7 +32,6 @@ userRouter.post('/resetPassword',restPassword)
 userRouter.get('/banners',getBanner)
 userRouter.get('/getCategory',getCategory)
 userRouter.get('/getFeature',getFeature)
-userRouter.get('/getType',getType)
 userRouter.get('/getData',getData)
 userRouter.get('/getDetails/:id',getDetails)
 userRouter.post('/create-checkout-session',createCheckoutSession)
