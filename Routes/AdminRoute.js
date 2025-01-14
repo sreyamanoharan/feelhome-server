@@ -4,7 +4,6 @@ const adminRouter = express.Router()
 import {addBanner,getBanner,disableBanner, deleteBanner} from "./../Controller/AdminController/BannerController.js";
 import {addCategory ,getCategory} from './../Controller/AdminController/CategoryManagement.js'
 import { addFeature, getFeature} from "../Controller/AdminController/FeatureManagement.js";
-import { addType } from "../Controller/AdminController/TypeController.js";
 import { getUser,getUserNum,latestUsers,latestUsersnum,userStatus } from "../Controller/AdminController/UserController.js";
 import { graphData } from "../Controller/AdminController/AdminController.js";
 import { getBookingNum, latestBookings } from "../Controller/UserController/BookingController.js";
@@ -20,7 +19,6 @@ adminRouter.post('/postCategory',addCategory)
 adminRouter.get('/getCategory',getCategory)
 adminRouter.post('/postFeature',addFeature)
 adminRouter.get('/getFeature',getFeature)
-adminRouter.post('/addType',addType)
 adminRouter.get('/getUser',getUser)
 adminRouter.patch('/userStatus', userStatus);
 adminRouter.get('/adminRevenue',adminRevenue)

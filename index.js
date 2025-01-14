@@ -11,11 +11,11 @@ import messageRoute from './Routes/messageRoute.js';
 
 const app = express();
 const port = 3000;
-const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
+// const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
 
 
 app.use(cors({
-   origin: ["http://localhost:4000","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
+   origin: ["http://localhost:4000","http://localhost:4000/","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
@@ -45,7 +45,11 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
+<<<<<<< HEAD
     origin: ["http://localhost:4000", "https://feelhome-client.vercel.app"],
+=======
+    origin: ["http://localhost:4000","http://localhost:4000/", "https://feelhome-client.vercel.app/","https://feelhome-client.vercel.app"],
+>>>>>>> 96646b893e59e7d87f915ac69a2ae6e664bb80aa
     methods:['GET','POST','PATCH']
   }
 })
