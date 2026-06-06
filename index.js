@@ -45,7 +45,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app"],
+    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app/"],
     methods:['GET','POST','PATCH']
   }
 })
@@ -69,10 +69,10 @@ io.on("connection",(socket)=>{
   })
 
   socket.on('new message',(newMessageRecieved)=>{
-      console.log('new message....///////////////////.....//////////////');
+    
       
     var chat=newMessageRecieved?.chatId
-    console.log(chat,"==========")
+  
     if(!chat?.User) return console.log("chat not found");
     chat.User.forEach((user)=>{
       
