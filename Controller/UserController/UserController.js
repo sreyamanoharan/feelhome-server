@@ -6,7 +6,8 @@ const FRONTENDURL = process.env.FRONTEND_URL; // ← from .env
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose'
+const { ObjectId } = mongoose.Types
 
 
 export const sendVerifyMail = async (name, email, userId) => {

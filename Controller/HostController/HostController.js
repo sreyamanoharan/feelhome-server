@@ -1,5 +1,6 @@
 import HostSchema from '../../Models/HostModel.js';
-import { ObjectId } from 'mongodb';
+import mongoose from 'mongoose'
+const { ObjectId } = mongoose.Types
 
 
 
