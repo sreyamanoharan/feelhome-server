@@ -3,8 +3,6 @@ import hostSchema from '../../Models/HostModel.js'
 
 export const getData=async(req,res)=>{
     try {
-      console.log('hiiii loh');
-      
         const hostData=await hostSchema.find()
         res.status(200).json({hostData})
     } catch (error) {
@@ -16,11 +14,7 @@ export const getData=async(req,res)=>{
 export const getDetails=async(req,res)=>{
     try {
       const id=req.params.id
-      console.log(id,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
       const details= await hostSchema.findById(id).populate('hostId');
-
-    console.log(details,'deetaailssss');
-    
       res.status(200).json({details})
     } catch (error) {
       console.log(error);

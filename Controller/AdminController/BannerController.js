@@ -60,10 +60,7 @@ export const deleteBanner=async(req,res)=>{
 try {
     
     const {id}=req.query
-    console.log(id,'hiiiii');
-    
     const bannerData=await BannerCollection.findByIdAndDelete(id)
-    console.log(bannerData);
     res.status(200).json({bannerData})
     
 } catch (error) {

@@ -6,8 +6,6 @@ import userCollection from "../Models/UserModel.js";
 const SECRETCODE = "SECRETKEY";
 
 export const generateToken = (id, role) => {
-  console.log(id, role, "demo");
-
   const token = jwt.sign({ id, role }, SECRETCODE);
   return token;
 };
@@ -15,14 +13,11 @@ export const generateToken = (id, role) => {
 export const verifyUserToken = async (req, res, next) => {
   try {
     let token = req.headers.authorization;
-    console.log(token, "here is the tokennnn......");
     if (!token) {
-      console.log("token illa ughh");
       return res.status(403).json({ errmsg: "Access denied" });
     }
 
     if (token.startsWith("Bearer")) {
-      console.log("token ind guys");
       token = token.slice(7, token.length).trimLeft();
     }
 

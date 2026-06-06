@@ -24,8 +24,6 @@ return feat.heading
 
   
 });
-console.log(req.body.hostData.description);
-
 
     const hostData = new HostSchema({
       selectedCategory,
@@ -68,9 +66,6 @@ export const getDetails = async (req, res) => {
 
     // Find the host details
     const hostDetails = await HostSchema.findById(id);
-    console.log(hostDetails,'detailsssss');
-    
-
     if (!hostDetails) {
       return res.status(404).json({ message: 'Host not found' });
     }

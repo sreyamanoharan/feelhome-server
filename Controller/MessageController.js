@@ -7,9 +7,6 @@ export const sendMessage=async(req,res)=>{
 
     try{
         const {content,chatId,userId}=req.body
-        console.log(content,"content");
-        console.log(userId,"userId");
-        console.log(chatId,"chatId");
     
         if(!content||!chatId){
             res.json("invalid data")

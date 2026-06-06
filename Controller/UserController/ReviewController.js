@@ -13,8 +13,6 @@ export const postReview=async(req,res)=>{
     })
 
     let Review=await reviews.save()
-    console.log(Review,'wowww');
-    
     res.status(200).json({review:Review})
  } catch (error) {
     console.log(error);
@@ -26,11 +24,7 @@ export const postReview=async(req,res)=>{
 export const getReviews=async(req,res)=>{
     try {
         const id=req.params.id
-        console.log(id,'id undeeeeeeee');
-        
         const reviews=await reviewSchema.find({propertyId:id}).populate({path:'propertyId',populate:{path:'hostId',model:'User'}}).populate('userId')
-        // console.log(reviews,'hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-        
         const rating=reviews.map((review)=>{
                    
             return review.rating
@@ -44,8 +38,6 @@ export const getReviews=async(req,res)=>{
         day: "numeric",})}
     ))
 
-    console.log(propRev,'oooooooooooooooooooooooooooo');
-    
     let lengths=rating.length
 
     let avg=rating?.reduce((a,b)=>{
@@ -53,9 +45,6 @@ export const getReviews=async(req,res)=>{
     })
 
     const avgRating=(avg/lengths).toFixed(1)
-        console.log(propRev,avgRating,'hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-        
-        // console.log(reviews,'gettingg itttt...');
         res.status(200).json({review:propRev,rating:avgRating})
     } catch (error) {
         console.log(error);

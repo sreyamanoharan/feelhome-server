@@ -10,8 +10,6 @@ const STRIPE_API_KEY = process.env.STRIPE_API_KEY
 const stripe = Stripe(STRIPE_API_KEY);
 
 export const createCheckoutSession = async (req, res) => {
-
-  console.log('booking starts hereeee....');
   
     try {
         const userId = req.body.userId
@@ -81,8 +79,6 @@ export const createCheckoutSession = async (req, res) => {
                 
               })
 
-              console.log('boooooooooookkkkk');
-              
               res.send({ url: session.url });
             
             }
@@ -177,7 +173,6 @@ export const paymentSuccess = async (req, res) => {
 export const getBookingNum=async(req,res)=>{
     try {
       const bookingNum=await rentModel.countDocuments()
-      console.log(bookingNum);
       res.status(200).json({bookingNum})
     } catch (error) {
       console.log(error);

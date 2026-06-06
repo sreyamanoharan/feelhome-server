@@ -2,18 +2,15 @@ import { generateToken } from '../../middlewares/auth.js';
 import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
+const FRONTENDURL = process.env.FRONTEND_URL; // ← from .env
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
-const FRONTENDURL = [ "https://feelhome-client.vercel.app/"]
 import { ObjectId } from 'mongoose';
 
 
-// SALT.config();
-
 export const sendVerifyMail = async (name, email, userId) => {
   try {
-
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -28,15 +25,11 @@ export const sendVerifyMail = async (name, email, userId) => {
     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
     const expirationToken = encodeURIComponent(expirationTime.toISOString());
 
-
     const mailOptions = {
-
       from: 'feelhomewebsite@gmail.com',
       to: email,
       subject: 'email verification',
-      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}"
-      >here</a> to verify your email.</p>`,
-
+      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
@@ -53,55 +46,41 @@ export const sendVerifyMail = async (name, email, userId) => {
 };
 
 export const verifyMail = async (req, res) => {
-
-  console.log('hii verify mail');
-  
-
   try {
-
     const expirationToken = req.query.expires;
-    const expirationTime = new Date(expirationToken);  
+    const expirationTime = new Date(expirationToken);
+
     if (expirationTime > new Date()) {
-
       const { userId } = req.params;
-
-
       await userCollection.updateOne({ _id: userId }, { $set: { isVerified: true } });
       res.status(200).json({ message: 'Email verified successfully' });
+    } else {
+      res.status(400).json({ errmsg: 'email expired, send mail again' });
     }
-    else {
-      res.status(400).json({ errmsg: 'email expired, send mail again' })
-
-    }
-
-
   } catch (error) {
     console.error(error.message);
-    next(error);
+    res.status(500).json({ errmsg: 'Server error' });
   }
-}
+};
 
 export const resendMail = async (req, res) => {
-
   try {
-
     const { userId } = req.body;
     const user = await userCollection.findOne({ _id: userId });
 
     if (user) {
-      sendVerifyMail(user.name, user.email, userId)
+      sendVerifyMail(user.name, user.email, userId);
       res.status(200).json({ message: 'Verification email has been resent.' });
-    } else res.status(402).json({ errMsg: 'user not fount.' });
-
+    } else {
+      res.status(402).json({ errmsg: 'user not found.' });
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.status(500).json({ errmsg: 'Server error' });
   }
-}
-
+};
 
 export const ClientRegister = async (req, res) => {
-  console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-  
   try {
     let { name, email, PhoneNumber, password } = req.body;
     email = email.trim();
@@ -120,43 +99,32 @@ export const ClientRegister = async (req, res) => {
         PhoneNumber,
         password: sha256(password + SALT),
       });
-      sendVerifyMail(newUser.name, newUser.email, newUser._id)
-      res.status(201).json({ message: 'User registered successfully ,Check your mail for verification' });
+      sendVerifyMail(newUser.name, newUser.email, newUser._id);
+      res.status(201).json({ message: 'User registered successfully, Check your mail for verification' });
     }
-
-
   } catch (error) {
     console.error('Error while registering user:', error);
-    next(error);
+    res.status(500).json({ errmsg: 'Server error' });
   }
 };
-console.log("workign");
 
 export const login = async (req, res) => {
   try {
-
     let { email, password, reMail } = req.body;
-console.log(email);
-
     const user = await userCollection.findOne({
       $and: [{ email }, { password: sha256(password + SALT) }],
     });
 
     if (!user) {
-
       res.status(400).json({ errmsg: "Password and email is incorrect" });
     } else if (user.isBlocked) {
-
       res.status(403).json({ errmsg: "Account is blocked by admin" });
     } else if (user && reMail) {
-
       sendVerifyMail(user.name, user.email, user._id);
     } else if (!user.isVerified) {
-
       res.status(401).json({ errmsg: "Verify your mail" });
     } else {
-
-      const token = generateToken(user._id, 'user')
+      const token = generateToken(user._id, 'user');
       res.status(200).json({
         message: "user successfully login",
         name: user.name,
@@ -167,56 +135,54 @@ console.log(email);
     }
   } catch (error) {
     res.status(500).json({ errmsg: "server error" });
-    console.log(error)
+    console.log(error);
   }
 };
+
 export const loadProfile = async (req, res) => {
   try {
-    console.log(req.payload.id, 'kkkkkkkkkkkk=============================================');
-
-    const userId = req.payload.id
-    const user = await userCollection.findOne({ _id: userId })
-
-    console.log(user, 'user here heyyyyyyyy');
-
-    return res.status(200).json({ user })
+    const userId = req.payload.id;
+    const user = await userCollection.findOne({ _id: userId });
+    return res.status(200).json({ user });
   } catch (err) {
-    return res.status(500).json({ errmsg: "Server error" })
+    return res.status(500).json({ errmsg: "Server error" });
   }
-}
+};
 
 export const editProfile = async (req, res) => {
   try {
     let { name, profileImage, PhoneNumber } = req.body;
     name = name.trim();
-    await userCollection.updateOne({ _id: req.payload.id }, { $set: { name, profileImage, PhoneNumber } });
+    await userCollection.updateOne(
+      { _id: req.payload.id },
+      { $set: { name, profileImage, PhoneNumber } }
+    );
     return res.status(200).json({ message: "Profile updated successfully" });
   } catch (err) {
     return res.status(500).json({ errmsg: "Server Error" });
   }
 };
 
-
 export const users = async (req, res) => {
   try {
-    let { userId } = req.params
-    const users = await userCollection.findById(userId)
-    return res.status(200).json({ users })
+    let { userId } = req.params;
+    const users = await userCollection.findById(userId);
+    return res.status(200).json({ users });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ errmsg: 'Server error' });
   }
-
-}
-
+};
 
 export const getUserNum = async (req, res) => {
   try {
-    const num = await userCollection.countDocuments()
-    res.status(200).json({ num })
+    const num = await userCollection.countDocuments();
+    res.status(200).json({ num });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ errmsg: 'Server error' });
   }
-}
+};
 
 export const latestUsers = async (req, res) => {
   try {
@@ -233,44 +199,47 @@ export const latestUsers = async (req, res) => {
       },
     });
 
-    res.status(200).json({ num })
+    res.status(200).json({ num });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-
-
-
 export const userGlogin = async (req, res) => {
   try {
-    console.log("hi");
-    const data = req.body
-    const googleEmail = data.email
-    const email = await userCollection.findOne({ email: googleEmail })
+    const { name, email } = req.body;
 
-    const token = generateToken(email._id, 'user')
-
-    if (email != null) {
-      res.status(200).json({
-        message: "google email verified", name: email.name,
-        userId: email._id,
-        token,
-        role: 'user'
-      })
-
-    } else {
-      res.status(400).json("google verification failed")
+    if (!email) {
+      return res.status(400).json({ errmsg: "Google email is required" });
     }
 
+    const user = await userCollection.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        errmsg: "No account found with this email. Please register first."
+      });
+    }
+
+    if (user.isBlocked) {
+      return res.status(403).json({ errmsg: "Account is blocked by admin" });
+    }
+
+    const token = generateToken(user._id, 'user');
+
+    return res.status(200).json({
+      message: "Google login successful",
+      name: user.name,
+      userId: user._id,
+      token,
+      role: 'user'
+    });
   } catch (error) {
     console.log(error);
-
+    return res.status(500).json({ errmsg: "Google login failed" });
   }
-}
-
-
+};
 
 const forgotPasswordMail = async (email, name, userId) => {
   try {
@@ -282,14 +251,13 @@ const forgotPasswordMail = async (email, name, userId) => {
         user: 'feelhomewebsite@gmail.com',
         pass: EMAIL_PASS
       },
-
     });
 
     const mailOptions = {
       from: 'feelhomewebsite@gmail.com',
       to: email,
       subject: 'Forgot Password',
-      html: `<p>Hello ${name} Please click here <a href = "${FRONTENDURL}resetPassword/${userId}">here</a>if you want't to reset your password</p>`
+      html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -298,52 +266,41 @@ const forgotPasswordMail = async (email, name, userId) => {
       } else {
         console.log('email has been sent', info.response);
       }
-    })
-
+    });
   } catch (error) {
     console.log(error);
-    console.log('error occured while sending mail')
+    console.log('error occurred while sending mail');
   }
-}
+};
 
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body
-    console.log(req.body,'bodyyyy,,,,,,');
-    
-    const user = await userCollection.findOne({ email })
-    console.log(user,'user');
-    
+    const { email } = req.body;
+    const user = await userCollection.findOne({ email });
+
     if (user) {
-      forgotPasswordMail(email, user.name, user._id)
-      res.status(200).json({ message: 'Please check your mail' })
+      forgotPasswordMail(email, user.name, user._id);
+      res.status(200).json({ message: 'Please check your mail' });
     } else {
-      res.status(400).json({ errmsg: 'user not found' })
+      res.status(400).json({ errmsg: 'user not found' });
     }
-
   } catch (error) {
-    res.status(500).json({ errmsg: 'Server error' })
-
+    res.status(500).json({ errmsg: 'Server error' });
   }
-}
-
+};
 
 export const restPassword = async (req, res) => {
-
-  console.log('hii');
-  
   try {
-    const { userId, password } = req.body
-    console.log(req.body);
-    
-    const data=await userCollection.updateOne({ _id: userId }, { $set: { password: sha256(password + SALT) } })
-    
-    res.status(200).json({ message: 'Password Changed' })
+    const { userId, password } = req.body;
+    await userCollection.updateOne(
+      { _id: userId },
+      { $set: { password: sha256(password + SALT) } }
+    );
+    res.status(200).json({ message: 'Password Changed' });
   } catch (error) {
-    res.status(500).json({ errmsg: "Server error" })
+    res.status(500).json({ errmsg: "Server error" });
   }
-}
-
+};
 
 export default {
   ClientRegister,
@@ -351,5 +308,4 @@ export default {
   verifyMail,
   login,
   resendMail,
-
 };
