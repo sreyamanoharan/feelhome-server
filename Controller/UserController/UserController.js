@@ -2,7 +2,7 @@ import { generateToken } from '../../middlewares/auth.js';
 import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const FRONTENDURL = process.env.FRONTENDURL; 
+const FRONTENDURL = process.env.FRONTEND_URL; 
 import { Resend } from 'resend';
 import sha256 from 'sha256';
 import mongoose from 'mongoose'
