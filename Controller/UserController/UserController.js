@@ -2,7 +2,7 @@ import { generateToken } from '../../middlewares/auth.js';
 import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const FRONTENDURL = process.env.FRONTEND_URL; // ← from .env
+const FRONTENDURL = process.env.FRONTEND_URL; 
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
@@ -27,7 +27,7 @@ export const sendVerifyMail = async (name, email, userId) => {
     const expirationToken = encodeURIComponent(expirationTime.toISOString());
 
     const mailOptions = {
-      from: 'feelhomewebsite@gmail.com',
+      from: 'homefeelhere@gmail.com',
       to: email,
       subject: 'email verification',
       html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
