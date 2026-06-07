@@ -17,7 +17,7 @@ export const sendVerifyMail = async (name, email, userId) => {
       port: 465,
       secure: true,
       auth: {
-        user: 'feelhomewebsite@gmail.com',
+        user: 'homefeelhere@gmail.com',
         pass: EMAIL_PASS,
       },
     });
