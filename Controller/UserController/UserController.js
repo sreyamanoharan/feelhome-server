@@ -3,45 +3,69 @@ import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const FRONTENDURL = process.env.FRONTENDURL; 
-
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import sha256 from 'sha256';
 import mongoose from 'mongoose'
 const { ObjectId } = mongoose.Types
 
 
-export const sendVerifyMail = async (name, email, userId) => {  
+// export const sendVerifyMail = async (name, email, userId) => {  
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: 'homefeelhere@gmail.com',
+//         pass: EMAIL_PASS,
+//       },
+//     });
+
+//     const expirationTime = new Date();
+//     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
+//     const expirationToken = encodeURIComponent(expirationTime.toISOString());
+// console.log(FRONTENDURL,'=========');
+
+//     const mailOptions = {
+//       from: 'homefeelhere@gmail.com',
+//       to: email,
+//       subject: 'email verification',
+//       html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
+//     };
+
+//     transporter.sendMail(mailOptions, (err, info) => {
+//       if (err) {
+//         console.error(err);
+//       } else {
+//         console.log('Email has been sent', info.response);
+//       }
+//     });
+//   } catch (err) {
+//     console.error(err.message);
+//     console.log('Email cannot be sent');
+//   }
+// };
+
+export const sendVerifyMail = async (name, email, userId) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'homefeelhere@gmail.com',
-        pass: EMAIL_PASS,
-      },
-    });
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const expirationTime = new Date();
     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
     const expirationToken = encodeURIComponent(expirationTime.toISOString());
-console.log(FRONTENDURL,'=========');
 
-    const mailOptions = {
-      from: 'homefeelhere@gmail.com',
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev',
       to: email,
-      subject: 'email verification',
-      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Email has been sent', info.response);
-      }
+      subject: 'Email Verification - feelHome',
+      html: `<p>Hi ${name}, please click <a href="${process.env.FRONTEND_URL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
     });
+
+    if (error) {
+      console.error('Email error:', error);
+    } else {
+      console.log('Verification email sent:', data);
+    }
   } catch (err) {
-    console.error(err.message);
-    console.log('Email cannot be sent');
+    console.error('Email failed:', err);
   }
 };
 
@@ -241,35 +265,56 @@ export const userGlogin = async (req, res) => {
   }
 };
 
+// const forgotPasswordMail = async (email, name, userId) => {
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       host: 'smtp.gmail.com',
+//       port: 465,
+//       secure: true,
+//       auth: {
+//         user: 'homefeelhere@gmail.com',
+//         pass: EMAIL_PASS
+//       },
+//     });
+
+//     const mailOptions = {
+//       from: 'homefeelhere@gmail.com',
+//       to: email,
+//       subject: 'Forgot Password',
+//       html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`
+//     };
+
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//         console.log('email could not be sent', error.message);
+//       } else {
+//         console.log('email has been sent', info.response);
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     console.log('error occurred while sending mail');
+//   }
+// };
+
 const forgotPasswordMail = async (email, name, userId) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'homefeelhere@gmail.com',
-        pass: EMAIL_PASS
-      },
-    });
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const mailOptions = {
-      from: 'homefeelhere@gmail.com',
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev',
       to: email,
-      subject: 'Forgot Password',
-      html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log('email could not be sent', error.message);
-      } else {
-        console.log('email has been sent', info.response);
-      }
+      subject: 'Reset Password - feelHome',
+      html: `<p>Hello ${name}, Please click <a href="${process.env.FRONTEND_URL}resetPassword/${userId}">here</a> to reset your password</p>`,
     });
+
+    if (error) {
+      console.error('Email error:', error);
+    } else {
+      console.log('Password reset email sent:', data);
+    }
   } catch (error) {
-    console.log(error);
-    console.log('error occurred while sending mail');
+    console.error('Email failed:', error);
   }
 };
 
