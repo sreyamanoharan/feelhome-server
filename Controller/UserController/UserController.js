@@ -25,6 +25,7 @@ export const sendVerifyMail = async (name, email, userId) => {
     const expirationTime = new Date();
     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
     const expirationToken = encodeURIComponent(expirationTime.toISOString());
+console.log(FRONTENDURL,'=========');
 
     const mailOptions = {
       from: 'homefeelhere@gmail.com',
