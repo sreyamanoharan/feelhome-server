@@ -2,7 +2,7 @@ import { generateToken } from '../../middlewares/auth.js';
 import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const FRONTENDURL = process.env.FRONTEND_URL; 
+const FRONTENDURL = process.env.VITE_FRONTENDURL; 
 
 import nodemailer from 'nodemailer';
 import sha256 from 'sha256';
