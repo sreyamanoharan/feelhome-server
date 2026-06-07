@@ -4,7 +4,7 @@ import userModel from '../../Models/UserModel.js'
 import rentModel from '../../Models/RentModel.js';
 
 const BACKEND_URL = process.env.BACKEND_URL
-const FRONTEND_URL = process.env.VITE_FRONTENDURL
+const FRONTEND_URL = process.env.FRONTENDURL
 import Stripe from 'stripe'
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY
 const stripe = Stripe(STRIPE_API_KEY);

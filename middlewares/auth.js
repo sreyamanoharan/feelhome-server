@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import jwt from "jsonwebtoken";
 import userCollection from "../Models/UserModel.js";
-// const SECRETCODE=process.env.VITE_jwtSecretKey
-const SECRETCODE = "SECRETKEY";
+const SECRETCODE=process.env.jwtSecretKey
 
 export const generateToken = (id, role) => {
   const token = jwt.sign({ id, role }, SECRETCODE);
