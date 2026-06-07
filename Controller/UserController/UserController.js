@@ -14,8 +14,8 @@ export const sendVerifyMail = async (name, email, userId) => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,
       auth: {
         user: 'homefeelhere@gmail.com',
         pass: EMAIL_PASS,
@@ -249,13 +249,13 @@ const forgotPasswordMail = async (email, name, userId) => {
       port: 465,
       secure: true,
       auth: {
-        user: 'feelhomewebsite@gmail.com',
+        user: 'homefeelhere@gmail.com',
         pass: EMAIL_PASS
       },
     });
 
     const mailOptions = {
-      from: 'feelhomewebsite@gmail.com',
+      from: 'homefeelhere@gmail.com',
       to: email,
       subject: 'Forgot Password',
       html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`
