@@ -10,9 +10,7 @@ import mongoose from 'mongoose'
 const { ObjectId } = mongoose.Types
 
 
-export const sendVerifyMail = async (name, email, userId) => {
-  console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',EMAIL_PASS);
-  
+export const sendVerifyMail = async (name, email, userId) => {  
   try {
     const transporter = nodemailer.createTransport({
       service: 'gmail',

@@ -8,10 +8,12 @@ import chatRouter from './Routes/ChatRoute.js';
 import jwt from 'jsonwebtoken'
 import { Server, Socket } from 'socket.io';
 import messageRoute from './Routes/messageRoute.js';
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
 const port = 3000;
-// const dbUrl = 'mongodb://127.0.0.1:27017/feelHome';
+const dbUrl = process.env.MONGO_URI
 
 
 app.use(cors({
@@ -28,8 +30,9 @@ app.use('/host', hostRouter);
 app.use('/chat',chatRouter)
 app.use('/message',messageRoute)
 
+console.log(process.env.MONGO_URI,'kkkkkkkk');
 
-mongoose.connect(process.env.MONGO_URI).then(result=>{
+mongoose.connect(dbUrl).then(result=>{
   console.log('mongo db connected');
 }).catch(err=>{
   console.log(err);
