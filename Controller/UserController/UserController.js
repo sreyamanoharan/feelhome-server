@@ -2,7 +2,7 @@ import { generateToken } from '../../middlewares/auth.js';
 import userCollection from '../../Models/UserModel.js';
 const SALT = process.env.SALT;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const FRONTENDURL = process.env.FRONTEND_URL; 
+const FRONTENDURL = process.env.FRONTENDURL; 
 import { Resend } from 'resend';
 import sha256 from 'sha256';
 import mongoose from 'mongoose'
@@ -56,7 +56,7 @@ export const sendVerifyMail = async (name, email, userId) => {
       from: 'onboarding@resend.dev',
       to: email,
       subject: 'Email Verification - feelHome',
-      html: `<p>Hi ${name}, please click <a href="${process.env.FRONTEND_URL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
+      html: `<p>Hi ${name}, please click <a href="${process.env.FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
     });
 
     if (error) {
