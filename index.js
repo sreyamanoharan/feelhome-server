@@ -17,7 +17,7 @@ const dbUrl = process.env.MONGO_URI
 
 
 app.use(cors({
-   origin: ["http://localhost:4000","http://localhost:4000/","https://feelhome-client.vercel.app","https://feelhome-client.vercel.app/"],
+   origin: ["http://localhost:4000","http://localhost:4000/","http://13.53.61.210"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
