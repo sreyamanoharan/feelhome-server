@@ -10,40 +10,40 @@ import mongoose from 'mongoose'
 const { ObjectId } = mongoose.Types
 
 
-export const sendVerifyMail = async (name, email, userId) => {  
-  try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'homefeelhere@gmail.com',
-        pass: EMAIL_PASS,
-      },
-    });
+// export const sendVerifyMail = async (name, email, userId) => {  
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: 'homefeelhere@gmail.com',
+//         pass: EMAIL_PASS,
+//       },
+//     });
 
-    const expirationTime = new Date();
-    expirationTime.setMinutes(expirationTime.getMinutes() + 1);
-    const expirationToken = encodeURIComponent(expirationTime.toISOString());
-console.log(FRONTENDURL,'=========');
+//     const expirationTime = new Date();
+//     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
+//     const expirationToken = encodeURIComponent(expirationTime.toISOString());
+// console.log(FRONTENDURL,'=========');
 
-    const mailOptions = {
-      from: 'homefeelhere@gmail.com',
-      to: email,
-      subject: 'email verification',
-      html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
-    };
+//     const mailOptions = {
+//       from: 'homefeelhere@gmail.com',
+//       to: email,
+//       subject: 'email verification',
+//       html: `<p>Hii ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}">here</a> to verify your email.</p>`,
+//     };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Email has been sent', info.response);
-      }
-    });
-  } catch (err) {
-    console.error(err.message);
-    console.log('Email cannot be sent');
-  }
-};
+//     transporter.sendMail(mailOptions, (err, info) => {
+//       if (err) {
+//         console.error(err);
+//       } else {
+//         console.log('Email has been sent', info.response);
+//       }
+//     });
+//   } catch (err) {
+//     console.error(err.message);
+//     console.log('Email cannot be sent');
+//   }
+// };
 
 // export const sendVerifyMail = async (name, email, userId) => {
 //   try {
@@ -69,6 +69,34 @@ console.log(FRONTENDURL,'=========');
 //     console.error('Email failed:', err);
 //   }
 // };
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'homefeelhere@gmail.com',
+    pass: EMAIL_PASS,
+  },
+});
+
+export const sendVerifyMail = async (name, email, userId) => {
+  try {
+    const expirationTime = new Date();
+    expirationTime.setMinutes(expirationTime.getMinutes() + 1);
+    const expirationToken = encodeURIComponent(expirationTime.toISOString());
+
+    const mailOptions = {
+      from: 'homefeelhere@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `<p>Hi ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?expires=${expirationToken}">here</a> to verify your email.</p>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.response);
+  } catch (err) {
+    console.error('Email cannot be sent:', err.message);
+  }
+};
 
 export const verifyMail = async (req, res) => {
   try {
