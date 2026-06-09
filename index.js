@@ -48,7 +48,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000", "http://13.53.61.210","http://feelhome.fun", "https://feelhome.fun"],
+    origin: ["http://localhost:4000", "http://13.53.61.210", "http://feelhome.fun", "https://feelhome.fun", "https://www.feelhome.fun"],
     methods:['GET','POST','PATCH']
   }
 })
