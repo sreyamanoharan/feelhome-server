@@ -24,11 +24,11 @@ app.use(cors({
 app.use(express.json());  
 
 
-app.use('/', userRouter);
-app.use('/admin', adminRouter);
-app.use('/host', hostRouter);
-app.use('/chat',chatRouter)
-app.use('/message',messageRoute)
+app.use('/api', userRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/host', hostRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/message', messageRoute);
 
 console.log(process.env.MONGO_URI,'kkkkkkkk');
 
@@ -48,7 +48,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000", "https://feelhome-client.vercel.app/"],
+    origin: ["http://localhost:4000", "http://13.53.61.210"],
     methods:['GET','POST','PATCH']
   }
 })

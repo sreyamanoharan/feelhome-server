@@ -21,34 +21,34 @@ import { restPassword } from '../Controller/UserController/UserController.js'
 import { postReview, getReviews } from "../Controller/UserController/ReviewController.js";
 
 
-userRouter.post('/api/register', ClientRegister)
-userRouter.get('/api/verifyMail/:userId', verifyMail)
-userRouter.post('/api/userLogin', login)
-userRouter.post('/api/resendVerificationEmail', resendMail)
-userRouter.post('/api/forgotPassword', forgotPassword)
-userRouter.post('/api/resetPassword', restPassword)
-userRouter.get('/api/banners', getBanner)
-userRouter.get('/api/getCategory', getCategory)
-userRouter.get('/api/getFeature', getFeature)
-userRouter.get('/api/getData', getData)
-userRouter.get('/api/getDetails/:id', getDetails)
-userRouter.post('/api/create-checkout-session', createCheckoutSession)
-userRouter.get('/api/paymentSuccess', paymentSuccess)
-userRouter.get('/api/paymentFail', paymentSuccess);
-userRouter.get('/api/booking/:userId', booking)
-userRouter.post('/api/cancel-booking/:bookingId', cancelBooking);
-userRouter.get('/api/userProfile', verifyUserToken, loadProfile);
-userRouter.patch('/api/editProfile', verifyUserToken, editProfile);
-userRouter.get('/api/latestProperties', latestProperties)
-userRouter.get('/api/getUser/:userId', users)
-userRouter.get('/api/userNum', getUserNum)
-userRouter.get('/api/newUsers', latestUsers)
-userRouter.get('/api/bookingNum', getBookingNum)
-userRouter.get('/api/newBooking', latestBookings)
-userRouter.get('/api/latestUsers', latestUsers)
-userRouter.post('/api/userGlogin', userGlogin)
-userRouter.post('/api/reviews', postReview)
-userRouter.get('/api/reviews/:id', getReviews)
+userRouter.post('/register', ClientRegister)
+userRouter.get('/verifyMail/:userId', verifyMail)
+userRouter.post('/userLogin', login)
+userRouter.post('/resendVerificationEmail', resendMail)
+userRouter.post('/forgotPassword', forgotPassword)
+userRouter.post('/resetPassword', restPassword)
+userRouter.get('/banners', getBanner)
+userRouter.get('/getCategory', getCategory)
+userRouter.get('/getFeature', getFeature)
+userRouter.get('/getData', getData)
+userRouter.get('/getDetails/:id', getDetails)
+userRouter.post('/create-checkout-session', createCheckoutSession)
+userRouter.get('/paymentSuccess', paymentSuccess)
+userRouter.get('/paymentFail', paymentSuccess);
+userRouter.get('/booking/:userId', booking)
+userRouter.post('/cancel-booking/:bookingId', cancelBooking);
+userRouter.get('/userProfile', verifyUserToken, loadProfile);
+userRouter.patch('/editProfile', verifyUserToken, editProfile);
+userRouter.get('/latestProperties', latestProperties)
+userRouter.get('/getUser/:userId', users)
+userRouter.get('/userNum', getUserNum)
+userRouter.get('/newUsers', latestUsers)
+userRouter.get('/bookingNum', getBookingNum)
+userRouter.get('/newBooking', latestBookings)
+userRouter.get('/latestUsers', latestUsers)
+userRouter.post('/userGlogin', userGlogin)
+userRouter.post('/reviews', postReview)
+userRouter.get('/reviews/:id', getReviews)
 
 
 
