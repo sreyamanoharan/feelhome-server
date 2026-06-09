@@ -17,7 +17,7 @@ const dbUrl = process.env.MONGO_URI
 
 
 app.use(cors({
-   origin: ["http://localhost:4000","http://localhost:4000/","http://13.53.61.210"],
+   origin: ["http://localhost:4000","http://13.53.61.210","http://feelhome.fun", "https://feelhome.fun"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
@@ -48,7 +48,7 @@ const server=app.listen(port, () => {
 const io=new Server(server,{
   pingTimeout:60000,
   cors:{
-    origin: ["http://localhost:4000", "http://13.53.61.210"],
+    origin: ["http://localhost:4000", "http://13.53.61.210","http://feelhome.fun", "https://feelhome.fun"],
     methods:['GET','POST','PATCH']
   }
 })
