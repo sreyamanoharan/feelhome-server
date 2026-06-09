@@ -17,7 +17,7 @@ const dbUrl = process.env.MONGO_URI
 
 
 app.use(cors({
-   origin: ["http://localhost:4000","http://13.53.61.210","http://feelhome.fun", "https://feelhome.fun"," 'https://www.feelhome.fun/'"],
+   origin: ["http://localhost:4000","http://13.53.61.210","http://feelhome.fun", "https://feelhome.fun","https://www.feelhome.fun"],
   methods: ["GET", "POST","PATCH","PUT" ,"DELETE"],
   credentials: true,
 }));
