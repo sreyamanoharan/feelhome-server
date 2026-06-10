@@ -118,7 +118,7 @@ export const paymentSuccess = async (req, res) => {
         {$inc:{wallet:priceAdmin},$push:{walletHistory:walletHistoryAdmin}})
        
 
-      return updateHost && updateAdmin && res.redirect(`${FRONTEND_URL}paymentSuccess/${load}`)
+      return updateHost && updateAdmin && res.redirect(`${FRONTEND_URL}/paymentSuccess/${load}`)
 
     } catch (error) {
       res.status(500).json({ errMsg: 'Server Error' })
