@@ -88,7 +88,7 @@ export const sendVerifyMail = async (name, email, userId) => {
       from: 'homefeelhere@gmail.com',
       to: email,
       subject: 'Email Verification',
-      html: `<p>Hi ${name}, please click <a href="${FRONTENDURL}verifyMail/${userId}?expires=${expirationToken}">here</a> to verify your email.</p>`,
+      html: `<p>Hi ${name}, please click <a href="${FRONTENDURL}/verifyMail/${userId}?expires=${expirationToken}">here</a> to verify your email.</p>`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -277,6 +277,9 @@ export const userGlogin = async (req, res) => {
 
     if (user.isBlocked) {
       return res.status(403).json({ errmsg: "Account is blocked by admin" });
+    }
+     if (!user.isVerified) {
+       res.status(401).json({ errmsg: "Verify your mail" });
     }
 
     const token = generateToken(user._id, 'user');
