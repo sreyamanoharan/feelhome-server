@@ -318,30 +318,13 @@ export const userGlogin = async (req, res) => {
 
 const forgotPasswordMail = async (email, name, userId) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'homefeelhere@gmail.com',
-        pass: EMAIL_PASS
-      },
-    });
-
-    const mailOptions = {
-      from: 'homefeelhere@gmail.com',
-      to: email,
-      subject: 'Forgot Password',
-      html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log('email could not be sent', error.message);
-      } else {
-        console.log('email has been sent', info.response);
-      }
-    });
+    await transporter.sendMail({
+  from: 'FeelHome <noreply@feelhome.fun>',
+  to: email,
+  subject: 'Reset your password – FeelHome',
+  html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`,
+});
+ 
   } catch (error) {
     console.log(error);
     console.log('error occurred while sending mail');
