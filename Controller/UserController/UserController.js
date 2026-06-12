@@ -88,7 +88,7 @@ export const sendVerifyMail = async (name, email, userId) => {
     expirationTime.setMinutes(expirationTime.getMinutes() + 1);
     const expirationToken = encodeURIComponent(expirationTime.toISOString());
 
-    const verificationLink = `${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}`;
+    const verificationLink = `${FRONTENDURL}/verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}`;
 
     await transporter.sendMail({
       from: 'FeelHome <noreply@feelhome.fun>',
@@ -322,7 +322,7 @@ const forgotPasswordMail = async (email, name, userId) => {
   from: 'FeelHome <noreply@feelhome.fun>',
   to: email,
   subject: 'Reset your password – FeelHome',
-  html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}resetPassword/${userId}">here</a> if you want to reset your password</p>`,
+  html: `<p>Hello ${name}, Please click <a href="${FRONTENDURL}/resetPassword/${userId}">here</a> if you want to reset your password</p>`,
 });
  
   } catch (error) {
