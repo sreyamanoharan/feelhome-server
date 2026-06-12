@@ -70,33 +70,41 @@ const { ObjectId } = mongoose.Types
 //   }
 // };
 
+// utils/sendEmail.js
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.resend.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: 'homefeelhere@gmail.com',
-    pass: EMAIL_PASS,
+    user: 'resend',
+    pass: process.env.RESEND_API_KEY,
   },
 });
 
-export const sendVerifyMail = async (name, email, userId) => {
-  try {
-    const expirationTime = new Date();
-    expirationTime.setMinutes(expirationTime.getMinutes() + 1);
-    const expirationToken = encodeURIComponent(expirationTime.toISOString());
-
-    const mailOptions = {
-      from: 'homefeelhere@gmail.com',
-      to: email,
-      subject: 'Email Verification',
-      html: `<p>Hi ${name}, please click <a href="${FRONTENDURL}/verifyMail/${userId}?expires=${expirationToken}">here</a> to verify your email.</p>`,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.response);
-  } catch (err) {
-    console.error('Email cannot be sent:', err.message);
-  }
+const sendVerifyMail = async (toEmail, verificationLink) => {
+  await transporter.sendMail({
+    from: 'FeelHome <noreply@feelhome.fun>',
+    to: toEmail,
+    subject: 'Verify your email – FeelHome',
+    text: `Verify your email: ${verificationLink}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px;">
+        <h2>Welcome to FeelHome!</h2>
+        <p>Click below to verify your email.</p>
+        <a href="${verificationLink}"
+           style="background:#4CAF50; color:white; padding:12px 24px;
+                  text-decoration:none; border-radius:4px; display:inline-block;">
+          Verify Email
+        </a>
+        <p style="color:#888; font-size:12px; margin-top:24px;">
+          If you didn't sign up, ignore this email.
+        </p>
+      </div>
+    `,
+  });
 };
+
 
 export const verifyMail = async (req, res) => {
   try {
