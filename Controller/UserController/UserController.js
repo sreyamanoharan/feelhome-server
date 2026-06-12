@@ -82,27 +82,38 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendVerifyMail = async (toEmail, verificationLink) => {
-  await transporter.sendMail({
-    from: 'FeelHome <noreply@feelhome.fun>',
-    to: toEmail,
-    subject: 'Verify your email – FeelHome',
-    text: `Verify your email: ${verificationLink}`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px;">
-        <h2>Welcome to FeelHome!</h2>
-        <p>Click below to verify your email.</p>
-        <a href="${verificationLink}"
-           style="background:#4CAF50; color:white; padding:12px 24px;
-                  text-decoration:none; border-radius:4px; display:inline-block;">
-          Verify Email
-        </a>
-        <p style="color:#888; font-size:12px; margin-top:24px;">
-          If you didn't sign up, ignore this email.
-        </p>
-      </div>
-    `,
-  });
+export const sendVerifyMail = async (name, email, userId) => {
+  try {
+    const expirationTime = new Date();
+    expirationTime.setMinutes(expirationTime.getMinutes() + 1);
+    const expirationToken = encodeURIComponent(expirationTime.toISOString());
+
+    const verificationLink = `${FRONTENDURL}verifyMail/${userId}?name=${name}&email=${email}&expires=${expirationToken}`;
+
+    await transporter.sendMail({
+      from: 'FeelHome <noreply@feelhome.fun>',
+      to: email,
+      subject: 'Verify your email – FeelHome',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px;">
+          <h2>Welcome to FeelHome, ${name}!</h2>
+          <p>Click below to verify your email.</p>
+          <a href="${verificationLink}"
+             style="background:#4CAF50; color:white; padding:12px 24px;
+                    text-decoration:none; border-radius:4px; display:inline-block;">
+            Verify Email
+          </a>
+          <p style="color:#888; font-size:12px; margin-top:24px;">
+            If you didn't sign up, ignore this email.
+          </p>
+        </div>
+      `,
+    });
+
+    console.log('Email sent successfully to', email);
+  } catch (err) {
+    console.error('Email send failed:', err.message);
+  }
 };
 
 
